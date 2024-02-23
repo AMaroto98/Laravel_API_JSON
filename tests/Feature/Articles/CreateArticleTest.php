@@ -65,7 +65,18 @@ class CreateArticleTest extends TestCase
             ]
         ]);
 
-        $response->assertJsonValidationErrors('data.attributes.title');
+        // $response->assertJsonApiValidationErrors('title');
+
+        $response->assertJsonStructure([
+            'errors' => [
+                ['title', 'detail', 'source' => ['pointer']]
+            ]
+        ])->assertJsonFragment([
+                    'source' => ['pointer' => '/data/attributes/title']
+                ])->assertHeader(
+                'content-type',
+                'application/vnd.api+json'
+            )->assertStatus(422);
 
     }
 
@@ -83,7 +94,16 @@ class CreateArticleTest extends TestCase
             ]
         ]);
 
-        $response->assertJsonValidationErrors('data.attributes.title');
+        $response->assertJsonStructure([
+            'errors' => [
+                ['title', 'detail', 'source' => ['pointer']]
+            ]
+        ])->assertJsonFragment([
+                    'source' => ['pointer' => '/data/attributes/title']
+                ])->assertHeader(
+                'content-type',
+                'application/vnd.api+json'
+            )->assertStatus(422);
 
     }
 
@@ -100,7 +120,17 @@ class CreateArticleTest extends TestCase
             ]
         ]);
 
-        $response->assertJsonValidationErrors('data.attributes.slug');
+        $response->assertJsonStructure([
+            'errors' => [
+                ['title', 'detail', 'source' => ['pointer']]
+            ]
+        ])->assertJsonFragment([
+                    'source' => ['pointer' => '/data/attributes/slug']
+                ])->assertHeader(
+                'content-type',
+                'application/vnd.api+json'
+            )->assertStatus(422);
+
 
     }
 
@@ -117,7 +147,16 @@ class CreateArticleTest extends TestCase
             ]
         ]);
 
-        $response->assertJsonValidationErrors('data.attributes.content');
+        $response->assertJsonStructure([
+            'errors' => [
+                ['title', 'detail', 'source' => ['pointer']]
+            ]
+        ])->assertJsonFragment([
+                    'source' => ['pointer' => '/data/attributes/content']
+                ])->assertHeader(
+                'content-type',
+                'application/vnd.api+json'
+            )->assertStatus(422);
 
     }
 }
