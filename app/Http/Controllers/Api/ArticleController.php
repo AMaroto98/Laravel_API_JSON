@@ -8,19 +8,26 @@ use App\Http\Resources\ArticleResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Models\Article;
+
 
 class ArticleController extends Controller
 {
+    public function index(Request $request): ArticleCollection
+    {
+        $sortField = $request->input('sort');
+        $sortDirection = Str::of($sortField)->startsWith('-') ? 'desc' : 'asc';
+        $sortField = ltrim($sortField, '-');
+        $articles = Article::orderBy($sortField, $sortDirection)->get();
+        return ArticleCollection::make($articles);
+    }
+
     public function show(Article $article): ArticleResource
     {
         return ArticleResource::make($article);
     }
 
-    public function index(): ArticleCollection
-    {
-        return ArticleCollection::make(Article::all());
-    }
 
     public function store(SaveArticleRequest $request): ArticleResource
     {
