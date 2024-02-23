@@ -3,11 +3,8 @@
 namespace Tests\Feature\Articles;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\Article;
-use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
-
 
 class CreateArticleTest extends TestCase
 {
