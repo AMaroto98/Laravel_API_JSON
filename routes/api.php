@@ -10,4 +10,7 @@ Route::get('article/{article}', [ArticleController::class, 'show'])->name('api.v
 
 Route::post('articles', [ArticleController::class, 'store'])->name('api.v1.articles.store');
 
+Route::patch('article/{article}', [ArticleController::class, 'update'])->name('api.v1.articles.update');
+
+
 
