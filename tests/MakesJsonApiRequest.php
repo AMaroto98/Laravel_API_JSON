@@ -11,6 +11,12 @@ use Closure;
 trait MakesJsonApiRequest
 {
 
+    protected bool $formatJsonApiDocument = true;
+
+    public function withoutJsonApiDocumentFormatting() {
+        $this->formatJsonApiDocument = false;
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -22,7 +28,13 @@ trait MakesJsonApiRequest
     public function json($method, $uri, array $data = [], array $headers = [], $options = 0)
     {
         $headers['accept'] = 'application/vnd.api+json';
-        return parent::json($method, $uri, $data, $headers);
+
+        if ($this->formatJsonApiDocument) {
+            $formatedData['data']['attributes'] = $data;
+            $formatedData['data']['type'] = (string) Str::of($uri)->after('api/v1/');
+        }
+
+        return parent::json($method, $uri, $formatedData ?? $data, $headers);
     }
 
     public function postJson($uri, array $data = [], array $headers = [], $options = 0)
