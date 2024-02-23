@@ -8,6 +8,6 @@ Route::get('articles', [ArticleController::class, 'index'])->name('api.v1.articl
 
 Route::get('article/{article}', [ArticleController::class, 'show'])->name('api.v1.articles.show');
 
-Route::post('articles', [ArticleController::class, 'create'])->name('api.v1.articles.create');
+Route::post('articles', [ArticleController::class, 'store'])->name('api.v1.articles.store');
 
 

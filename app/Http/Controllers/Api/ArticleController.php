@@ -23,7 +23,7 @@ class ArticleController extends Controller
     }
 
     // Crear un articulo
-    public function create(Request $request)
+    public function store(Request $request)
     {
 
         $request->validate([
