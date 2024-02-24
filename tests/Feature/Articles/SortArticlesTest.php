@@ -60,7 +60,6 @@ class SortArticlesTest extends TestCase
         ]);
     }
 
-
     /** @test */
     public function can_sort_articles_by_content_descending(): void
     {
@@ -76,4 +75,33 @@ class SortArticlesTest extends TestCase
             'A content',
         ]);
     }
+
+    /** @test */
+    public function can_sort_articles_by_title_and_content(): void
+    {
+        Article::factory()->create(['title' => 'A title', 'content' => 'A content']);
+        Article::factory()->create(['title' => 'B title', 'content' => 'B content']);
+        Article::factory()->create(['title' => 'A title', 'content' => 'C content']);
+
+
+        // article?sort=title,-content
+        $url = route('api.v1.articles.index', ['sort' => 'title,-content']);
+
+        $this->getJson($url)->assertSeeInOrder([
+            'C content',
+            'A content',
+            'B content',
+
+        ]);
+    }
+
+       /** @test */
+       public function cannot_sort_articles_by_uknown_fields(): void
+       {
+           Article::factory()->count(3)->create();
+
+           // article?sort=unknown
+           $url = route('api.v1.articles.index', ['sort' => 'unknown']);
+           $this->getJson($url)->assertStatus(400);
+       }
 }
