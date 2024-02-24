@@ -102,6 +102,7 @@ class SortArticlesTest extends TestCase
 
            // article?sort=unknown
            $url = route('api.v1.articles.index', ['sort' => 'unknown']);
+
            $this->getJson($url)->assertStatus(400);
        }
 }
