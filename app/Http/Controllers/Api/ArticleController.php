@@ -12,12 +12,19 @@ use App\Models\Article;
 
 class ArticleController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum', [
+            'only' => ['store', 'update', 'destroy']
+        ]);
+    }
     public function index(): ArticleCollection
     {
         $articles = Article::query()
-        ->allowedFilters(['title', 'content', 'year', 'month'])
-        ->allowedSorts(['title', 'content'])
-        ->jsonPaginate();
+            ->allowedFilters(['title', 'content', 'year', 'month'])
+            ->allowedSorts(['title', 'content'])
+            ->jsonPaginate();
 
         return ArticleCollection::make($articles);
     }
@@ -30,7 +37,7 @@ class ArticleController extends Controller
 
     public function store(SaveArticleRequest $request): ArticleResource
     {
-        $article = Article::create($request->validated());
+        $article = Article::create($request->validated() + ['user_id' =>auth()->id()]);
         return ArticleResource::make($article);
     }
 
