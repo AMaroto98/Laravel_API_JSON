@@ -30,6 +30,23 @@ class JsonApiQueryBuilder
         };
     }
 
+    public function allowedFilters(): Closure
+    {
+        return function($allowedFilters) {
+            /** @var Builder $this */
+            foreach (request('filter', []) as $filter => $value) {
+
+                abort_unless(in_array($filter, $allowedFilters), 400);
+
+                if ($this->hasNamedScope($filter)) {
+                    $this->{$filter}($value);
+                } else {
+                    $this->where($filter, 'LIKE', '%' . $value . '%');
+                }
+            }
+            return $this;
+        };
+    }
     public function jsonPaginate(): Closure
     {
         /** @var Builder $this */
