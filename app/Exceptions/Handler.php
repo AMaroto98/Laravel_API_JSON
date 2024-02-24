@@ -30,9 +30,13 @@ class Handler extends ExceptionHandler
         });
     }
 
-    protected function invalidJson($request, \Illuminate\Validation\ValidationException $exception): JsonApiValidationErrorResponse
+    protected function invalidJson($request, \Illuminate\Validation\ValidationException $exception): JsonResponse
     {
-        return new JsonApiValidationErrorResponse($exception);
+        if (!$request->routeIs('api.v1.login')) {
+            return new JsonApiValidationErrorResponse($exception);
+        }
+
+        return parent::invalidJson($request, $exception);
     }
 
 }
