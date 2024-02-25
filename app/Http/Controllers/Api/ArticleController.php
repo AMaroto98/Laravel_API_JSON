@@ -19,6 +19,7 @@ class ArticleController extends Controller
             'only' => ['store', 'update', 'destroy']
         ]);
     }
+    
     public function index(): ArticleCollection
     {
         $articles = Article::query()
@@ -49,10 +50,8 @@ class ArticleController extends Controller
 
     public function destroy(Article $article): Response
     {
-
         $article->delete();
         return response()->noContent();
-
     }
 
 }
